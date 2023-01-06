@@ -1,6 +1,6 @@
 import { BaseBlockstore } from 'blockstore-core'
 import merge from 'it-merge'
-import pushable from 'it-pushable'
+import { pushable } from 'it-pushable'
 import filter from 'it-filter'
 
 /**
@@ -102,8 +102,8 @@ export class BlockStorage extends BaseBlockstore {
    * @param {AbortOptions} [options]
    */
   async * getMany (cids, options = {}) {
-    const getFromBitswap = pushable()
-    const getFromChild = pushable()
+    const getFromBitswap = pushable({ objectMode: true })
+    const getFromChild = pushable({ objectMode: true })
 
     Promise.resolve().then(async () => {
       for await (const cid of cids) {

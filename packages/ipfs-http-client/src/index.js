@@ -46,11 +46,16 @@ import { createVersion } from './version.js'
 import globSourceImport from 'ipfs-utils/src/files/glob-source.js'
 
 /**
- * @typedef {import('./types').EndpointConfig} EndpointConfig
- * @typedef {import('./types').Options} Options
  * @typedef {import('multiformats/codecs/interface').BlockCodec<any, any>} BlockCodec
  * @typedef {import('multiformats/hashes/interface').MultihashHasher} MultihashHasher
  * @typedef {import('multiformats/bases/interface').MultibaseCodec<any>} MultibaseCodec
+ * @typedef {import('./types').Options} Options
+ * @typedef {import('./types').LoadBaseFn} LoadBaseFn
+ * @typedef {import('./types').LoadCodecFn} LoadCodecFn
+ * @typedef {import('./types').LoadHasherFn} LoadHasherFn
+ * @typedef {import('./types').IPLDOptions} IPLDOptions
+ * @typedef {import('./types').HTTPClientExtraOptions} HTTPClientExtraOptions
+ * @typedef {import('./types').EndpointConfig} EndpointConfig
  * @typedef {import('./types').IPFSHTTPClient} IPFSHTTPClient
  */
 
@@ -143,6 +148,6 @@ export function create (options = {}) {
 }
 
 export { CID } from 'multiformats/cid'
-export { Multiaddr as multiaddr } from 'multiaddr'
+export { multiaddr } from '@multiformats/multiaddr'
 export { default as urlSource } from 'ipfs-utils/src/files/url-source.js'
 export const globSource = globSourceImport

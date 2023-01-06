@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 
-import { expect } from 'aegir/utils/chai.js'
+import { expect } from 'aegir/chai'
 import { getDescribe, getIt } from '../utils/mocha.js'
 
 /**
@@ -9,7 +9,7 @@ import { getDescribe, getIt } from '../utils/mocha.js'
 
 /**
  * @param {Factory} factory
- * @param {Object} options
+ * @param {object} options
  */
 export function testState (factory, options) {
   const describe = getDescribe(options)
@@ -26,7 +26,6 @@ export function testState (factory, options) {
     after(() => factory.clean())
 
     it('should get the current state of pubsub', async function () {
-      // @ts-ignore this is mocha
       this.timeout(50 * 1000)
 
       const res = await ipfs.name.pubsub.state()

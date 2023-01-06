@@ -5,8 +5,12 @@ import Boom from '@hapi/boom'
 import { fromString as uint8ArrayFromString } from 'uint8arrays/from-string'
 import { toString as uint8ArrayToString } from 'uint8arrays/to-string'
 import { streamResponse } from '../../utils/stream-response.js'
-import pushable from 'it-pushable'
+import { pushable } from 'it-pushable'
 import { base64url } from 'multiformats/bases/base64'
+
+/**
+ * @typedef {import('@libp2p/interface-pubsub').Message} Message
+ */
 
 const preDecodeTopicFromHttpRpc = {
   assign: 'topic',
@@ -67,18 +71,35 @@ export const subscribeResource = {
     // request.raw.res.setHeader('Trailer', 'X-Stream-Error')
 
     return streamResponse(request, h, () => {
-      const output = pushable()
+      const output = pushable({ objectMode: true })
 
       /**
-       * @type {import('ipfs-core-types/src/pubsub').MessageHandlerFn}
+       * @type {import('@libp2p/interfaces/events').EventHandler<Message>}
        */
       const handler = (msg) => {
-        output.push({
-          from: msg.from, // TODO: switch to PeerId.parse(msg.from).toString() when go-ipfs defaults to CIDv1
-          data: base64url.encode(msg.data),
-          seqno: base64url.encode(msg.seqno),
-          topicIDs: msg.topicIDs.map(t => base64url.encode(uint8ArrayFromString(t)))
-        })
+        if (msg.type === 'signed') {
+          let numberString = msg.sequenceNumber.toString(16)
+
+          if (numberString.length % 2 !== 0) {
+            numberString = `0${numberString}`
+          }
+
+          const sequenceNumber = base64url.encode(uint8ArrayFromString(numberString, 'base16'))
+
+          output.push({
+            from: msg.from, // TODO: switch to peerIdFromString(msg.from).toString() when go-ipfs defaults to CIDv1
+            data: base64url.encode(msg.data),
+            seqno: sequenceNumber,
+            topicIDs: [base64url.encode(uint8ArrayFromString(msg.topic))],
+            key: base64url.encode(msg.key),
+            signature: base64url.encode(msg.signature)
+          })
+        } else {
+          output.push({
+            data: base64url.encode(msg.data),
+            topicIDs: [base64url.encode(uint8ArrayFromString(msg.topic))]
+          })
+        }
       }
 
       // js-ipfs-http-client needs a reply, and go-ipfs does the same thing

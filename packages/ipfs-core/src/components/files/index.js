@@ -1,5 +1,5 @@
 import { createLock } from './utils/create-lock.js'
-import isIpfs from 'is-ipfs'
+import * as isIpfs from 'is-ipfs'
 import { createStat } from './stat.js'
 import { createChmod } from './chmod.js'
 import { createCp } from './cp.js'
@@ -132,7 +132,7 @@ function createMfs (options) {
 export function createFiles ({ repo, preload, hashers, options: constructorOptions }) {
   const methods = createMfs({
     repo,
-    repoOwner: Boolean(constructorOptions.repoOwner),
+    repoOwner: constructorOptions.repoOwner !== false,
     hashers
   })
 
@@ -144,12 +144,10 @@ export function createFiles ({ repo, preload, hashers, options: constructorOptio
      * @param  {...any} args
      */
     const wrapped = (...args) => {
-      // @ts-ignore cannot derive type of arg
       const paths = args.filter(arg => isIpfs.ipfsPath(arg) || isIpfs.cid(arg))
 
       if (paths.length) {
         const options = args[args.length - 1]
-        // @ts-ignore it's a PreloadOptions, honest
         if (options && options.preload !== false) {
           paths.forEach(path => preload(path))
         }

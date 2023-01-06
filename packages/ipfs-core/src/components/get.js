@@ -6,14 +6,13 @@ import { CID } from 'multiformats/cid'
 import { pack } from 'it-tar'
 import { pipe } from 'it-pipe'
 import Pako from 'pako'
-import map from 'it-map'
 import toBuffer from 'it-to-buffer'
 
 // https://www.gnu.org/software/gzip/manual/gzip.html
 const DEFAULT_COMPRESSION_LEVEL = 6
 
 /**
- * @typedef {Object} Context
+ * @typedef {object} Context
  * @property {import('ipfs-repo').IPFSRepo} repo
  * @property {import('../types').Preload} preload
  *
@@ -57,11 +56,7 @@ export function createGet ({ repo, preload }) {
           },
           body: file.content()
         }],
-        pack(),
-        /**
-         * @param {AsyncIterable<Uint8Array>} source
-         */
-        (source) => map(source, buf => buf.slice())
+        pack()
         )
       } else {
         args.push(
@@ -84,7 +79,7 @@ export function createGet ({ repo, preload }) {
         )
       }
 
-      // @ts-ignore cannot derive type
+      // @ts-expect-error cannot derive type
       yield * pipe(...args)
 
       return
@@ -126,11 +121,7 @@ export function createGet ({ repo, preload }) {
             yield output
           }
         },
-        pack(),
-        /**
-         * @param {AsyncIterable<Uint8Array>} source
-         */
-        (source) => map(source, buf => buf.slice())
+        pack()
       ]
 
       if (options.compress) {
@@ -154,7 +145,7 @@ export function createGet ({ repo, preload }) {
         }
       }
 
-      // @ts-ignore cannot derive type
+      // @ts-expect-error cannot derive type
       yield * pipe(...args)
 
       return

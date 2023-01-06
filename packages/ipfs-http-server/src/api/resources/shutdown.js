@@ -11,8 +11,7 @@ export const shutdownResource = {
    * @param {import('@hapi/hapi').ResponseToolkit} h
    */
   handler: (_request, h) => {
-    // @ts-ignore - TS expects second argument
-    setImmediate(() => process.emit('SIGTERM'))
+    setImmediate(() => process.emit('SIGTERM', 'SIGTERM'))
     return h.response()
   }
 }

@@ -1,6 +1,6 @@
 import mergeOpts from 'merge-options'
 import { isTest } from 'ipfs-utils/src/env.js'
-import debug from 'debug'
+import { logger } from '@libp2p/logger'
 import errCode from 'err-code'
 import { UnixFS } from 'ipfs-unixfs'
 import * as dagPB from '@ipld/dag-pb'
@@ -12,6 +12,7 @@ import { bases, hashes, codecs } from 'multiformats/basics'
 import { initAssets } from 'ipfs-core-config/init-assets'
 import { AlreadyInitializedError } from '../errors.js'
 import { fromString as uint8ArrayFromString } from 'uint8arrays/from-string'
+import { TimeoutController } from 'timeout-abort-controller'
 import { createStart } from './start.js'
 
 import { createStop } from './stop.js'
@@ -50,9 +51,9 @@ import { Multihashes } from 'ipfs-core-utils/multihashes'
 import { Multibases } from 'ipfs-core-utils/multibases'
 
 const mergeOptions = mergeOpts.bind({ ignoreUndefined: true })
-const log = Object.assign(debug('ipfs'), {
-  error: debug('ipfs:error')
-})
+const log = logger('ipfs')
+
+const IPNS_INIT_KEYSPACE_TIMEOUT = 30000
 
 /**
  * @typedef {import('../types').Options} Options
@@ -65,7 +66,7 @@ const log = Object.assign(debug('ipfs'), {
 
 class IPFS {
   /**
-   * @param {Object} config
+   * @param {object} config
    * @param {Print} config.print
    * @param {Storage} config.storage
    * @param {import('ipfs-core-utils/multicodecs').Multicodecs} config.codecs
@@ -79,7 +80,7 @@ class IPFS {
 
     const dns = createDns()
     const isOnline = createIsOnline({ network })
-    // @ts-ignore This type check fails as options.
+    // @ts-expect-error This type check fails as options.
     // libp2p can be a function, while IPNS router config expects libp2p config
     const ipns = new IPNSAPI(options)
 
@@ -329,7 +330,18 @@ export async function create (options = {}) {
 
     log('initializing IPNS keyspace')
 
-    await ipfs.ipns.initializeKeyspace(storage.peerId.privKey, uint8ArrayFromString(`/ipfs/${cid}`))
+    if (storage.peerId.publicKey == null) {
+      throw errCode(new Error('Public key missing'), 'ERR_MISSING_PUBLIC_KEY')
+    }
+
+    const timeoutController = new TimeoutController(IPNS_INIT_KEYSPACE_TIMEOUT)
+    try {
+      await ipfs.ipns.initializeKeyspace(storage.peerId, uint8ArrayFromString(`/ipfs/${cid}`), {
+        signal: timeoutController.signal
+      })
+    } finally {
+      timeoutController.clear()
+    }
   }
 
   if (options.start !== false) {

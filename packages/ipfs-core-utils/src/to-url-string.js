@@ -1,6 +1,9 @@
-import { Multiaddr } from 'multiaddr'
-// @ts-expect-error no types
-import multiAddrToUri from 'multiaddr-to-uri'
+import { multiaddr } from '@multiformats/multiaddr'
+import { multiaddrToUri } from '@multiformats/multiaddr-to-uri'
+
+/**
+ * @typedef {import('@multiformats/multiaddr').Multiaddr} Multiaddr
+ */
 
 /**
  * @param {string|Multiaddr|URL} url - A string, multiaddr or URL to convert to a url string
@@ -9,7 +12,7 @@ import multiAddrToUri from 'multiaddr-to-uri'
 export function toUrlString (url) {
   try {
     // @ts-expect-error
-    url = multiAddrToUri(new Multiaddr(url))
+    url = multiaddrToUri(multiaddr(url))
   } catch (/** @type {any} */ err) { }
 
   url = url.toString()

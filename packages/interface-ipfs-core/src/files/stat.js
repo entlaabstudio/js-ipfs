@@ -3,7 +3,7 @@
 import { fromString as uint8ArrayFromString } from 'uint8arrays/from-string'
 import { nanoid } from 'nanoid'
 import { fixtures } from '../utils/index.js'
-import { expect } from 'aegir/utils/chai.js'
+import { expect } from 'aegir/chai'
 import { getDescribe, getIt } from '../utils/mocha.js'
 import { createShardedDirectory } from '../utils/create-sharded-directory.js'
 import { CID } from 'multiformats/cid'
@@ -11,6 +11,7 @@ import { identity } from 'multiformats/hashes/identity'
 import { randomBytes } from 'iso-random-stream'
 import isShardAtPath from '../utils/is-shard-at-path.js'
 import * as raw from 'multiformats/codecs/raw'
+import { isBrowser } from 'wherearewe'
 
 /**
  * @typedef {import('ipfsd-ctl').Factory} Factory
@@ -18,7 +19,7 @@ import * as raw from 'multiformats/codecs/raw'
 
 /**
  * @param {Factory} factory
- * @param {Object} options
+ * @param {object} options
  */
 export function testStat (factory, options) {
   const describe = getDescribe(options)
@@ -91,6 +92,27 @@ export function testStat (factory, options) {
       const filePath = `/stat-${Math.random()}/large-file-${Math.random()}.txt`
 
       await ipfs.files.write(filePath, largeFile, {
+        create: true,
+        parents: true
+      })
+
+      await expect(ipfs.files.stat(filePath)).to.eventually.include({
+        size: largeFile.length,
+        cumulativeSize: 490800,
+        blocks: 2,
+        type: 'file'
+      })
+    })
+
+    it('should stat a large browser File', async function () {
+      if (!isBrowser) {
+        this.skip()
+      }
+
+      const filePath = `/stat-${Math.random()}/large-file-${Math.random()}.txt`
+      const blob = new Blob([largeFile])
+
+      await ipfs.files.write(filePath, blob, {
         create: true,
         parents: true
       })

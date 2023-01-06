@@ -7,14 +7,13 @@ import * as ipfsModule from 'ipfs-core'
 import goIpfs from 'go-ipfs'
 import path, { dirname } from 'path'
 import { fileURLToPath } from 'url'
+import { webSockets } from '@libp2p/websockets'
+import { all as WebSocketsFiltersAll } from '@libp2p/websockets/filters'
 
 const merge = mergeOpts.bind({ ignoreUndefined: true })
 let __dirname = ''
 
 if (isNode) {
-  // @ts-ignore need to set module to es2020 to use import.meta.url, which we do,
-  // but then the "--module" setting doesn't get used by the "--build" setting
-  // which we use to build types from jsdoc
   __dirname = dirname(fileURLToPath(import.meta.url))
 }
 
@@ -28,7 +27,12 @@ const commonOptions = {
     libp2p: {
       dialer: {
         dialTimeout: 60e3 // increase timeout because travis is slow
-      }
+      },
+      transports: [
+        webSockets({
+          filter: WebSocketsFiltersAll
+        })
+      ]
     }
   },
   endpoint: process.env.IPFSD_SERVER

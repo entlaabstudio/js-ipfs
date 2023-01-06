@@ -1,4 +1,4 @@
-import isIPFS from 'is-ipfs'
+import * as isIPFS from 'is-ipfs'
 import { toCidAndPath } from 'ipfs-core-utils/to-cid-and-path'
 import drain from 'it-drain'
 import { resolve } from '../../utils.js'
@@ -7,7 +7,7 @@ import { resolve } from '../../utils.js'
  * resolves the given path by parsing out protocol-specific entries
  * (e.g. /ipns/<node-key>) and then going through the /ipfs/ entries and returning the final node
  *
- * @param {Object} context
+ * @param {object} context
  * @param {import('../ipns').IPNSAPI} context.ipns
  * @param {import('ipfs-repo').IPFSRepo} context.repo
  * @param {import('ipfs-core-utils/multicodecs').Multicodecs} context.codecs

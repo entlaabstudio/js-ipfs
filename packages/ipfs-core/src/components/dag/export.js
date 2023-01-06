@@ -2,12 +2,12 @@ import { CID } from 'multiformats/cid'
 import { createUnsafe } from 'multiformats/block'
 import { CarWriter } from '@ipld/car/writer'
 import { withTimeoutOption } from 'ipfs-core-utils/with-timeout-option'
-import debug from 'debug'
+import { logger } from '@libp2p/logger'
 import * as raw from 'multiformats/codecs/raw'
 import * as json from 'multiformats/codecs/json'
 import { walk } from 'multiformats/traversal'
 
-const log = debug('ipfs:components:dag:import')
+const log = logger('ipfs:components:dag:import')
 
 // blocks that we're OK with not inspecting for links
 /** @type {number[]} */
@@ -25,11 +25,14 @@ const NO_LINKS_CODECS = [
 
 /**
  * @template T
- * @typedef {import('multiformats/block').Block<T>} Block
+ * @template C
+ * @template A
+ * @template V
+ * @typedef {import('multiformats/block').Block<T, C, A, V>} Block
  */
 
 /**
- * @param {Object} config
+ * @param {object} config
  * @param {IPFSRepo} config.repo
  * @param {Preload} config.preload
  * @param {import('ipfs-core-utils/multicodecs').Multicodecs} config.codecs
@@ -85,12 +88,11 @@ export function createExport ({ repo, preload, codecs }) {
 }
 
 /**
- * @template T
  * @param {IPFSRepo} repo
  * @param {BlockWriter} writer
  * @param {AbortOptions} options
  * @param {import('ipfs-core-utils/multicodecs').Multicodecs} codecs
- * @returns {(cid:CID)=>Promise<Block<T>|null>}
+ * @returns {(cid:CID)=>Promise<ReturnType<createUnsafe>|null>}
  */
 function makeLoader (repo, writer, options, codecs) {
   return async (cid) => {

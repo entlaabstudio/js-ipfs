@@ -1,15 +1,15 @@
 import { createBitswap } from 'ipfs-bitswap'
 import { createLibp2p } from './libp2p.js'
-import { Multiaddr } from 'multiaddr'
+import { multiaddr } from '@multiformats/multiaddr'
 import errCode from 'err-code'
 import { BlockStorage } from '../block-storage.js'
 
 /**
- * @typedef {Object} Online
+ * @typedef {object} Online
  * @property {libp2p} libp2p
  * @property {Bitswap} bitswap
  *
- * @typedef {Object} Options
+ * @typedef {object} Options
  * @property {PeerId} options.peerId
  * @property {Repo} options.repo
  * @property {Print} options.print
@@ -20,10 +20,11 @@ import { BlockStorage } from '../block-storage.js'
  * @typedef {import('../types').Options} IPFSOptions
  * @typedef {import('ipfs-repo').IPFSRepo} Repo
  * @typedef {import('../types').Print} Print
- * @typedef {import('libp2p')} libp2p
+ * @typedef {import('libp2p').Libp2p} libp2p
  * @typedef {import('ipfs-bitswap').IPFSBitswap} Bitswap
- * @typedef {import('peer-id')} PeerId
+ * @typedef {import('@libp2p/interface-peer-id').PeerId} PeerId
  * @typedef {import('ipfs-core-types/src/utils').AbortOptions} AbortOptions
+ * @typedef {import('@multiformats/multiaddr').Multiaddr} Multiaddr
  */
 
 export class Network {
@@ -64,25 +65,23 @@ export class Network {
       keychainConfig: undefined
     })
 
-    if (libp2p.keychain) {
-      await libp2p.loadKeychain()
-    }
-
     await libp2p.start()
 
-    for (const ma of libp2p.multiaddrs) {
-      print(`Swarm listening on ${ma}/p2p/${peerId.toB58String()}`)
+    for (const ma of libp2p.getMultiaddrs()) {
+      print(`Swarm listening on ${ma.toString()}`)
     }
 
     const bitswap = createBitswap(libp2p, repo.blocks, {
       statsEnabled: true,
-      hashLoader: hashers
+      hashLoader: hashers,
+      maxInboundStreams: 1024,
+      maxOutboundStreams: 1024
     })
     await bitswap.start()
 
     const blockstore = new BlockStorage(repo.blocks, bitswap)
     repo.blocks = blockstore
-    // @ts-ignore private field
+    // @ts-expect-error private field
     repo.pins.blockstore = blockstore
 
     return new Network(peerId, libp2p, bitswap, repo, blockstore)
@@ -93,7 +92,7 @@ export class Network {
    */
   static async stop (network) {
     network.repo.blocks = network.blockstore.unwrap()
-    // @ts-ignore private field
+    // @ts-expect-error private field
     network.repo.pins.blockstore = network.blockstore.unwrap()
 
     await network.bitswap.stop()
@@ -106,12 +105,12 @@ export class Network {
  * @param {IPFSConfig} config
  */
 const readAddrs = (peerId, config) => {
-  const peerIdStr = peerId.toB58String()
+  const peerIdStr = peerId.toString()
   /** @type {Multiaddr[]} */
   const addrs = []
   const swarm = (config.Addresses && config.Addresses.Swarm) || []
   for (const addr of swarm) {
-    let ma = new Multiaddr(addr)
+    let ma = multiaddr(addr)
 
     // Temporary error for users migrating using websocket-star multiaddrs for listenning on libp2p
     // websocket-star support was removed from ipfs and libp2p

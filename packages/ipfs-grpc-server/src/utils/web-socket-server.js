@@ -1,13 +1,13 @@
-import WS from 'ws'
+import { WebSocketServer } from 'ws'
 import { EventEmitter } from 'events'
 import { WebSocketMessageChannel } from './web-socket-message-channel.js'
-import debug from 'debug'
+import { logger } from '@libp2p/logger'
 // @ts-expect-error - no types
 import coerce from 'coercer'
 import { camelCase } from 'change-case'
-import { Multiaddr } from 'multiaddr'
+import { multiaddr } from '@multiformats/multiaddr'
 
-const log = debug('ipfs:grpc-server:utils:web-socket-server')
+const log = logger('ipfs:grpc-server:utils:web-socket-server')
 
 /**
  * @param {import('ws').Data} buf - e.g. `Buffer.from('foo-bar: baz\r\n')`
@@ -31,7 +31,7 @@ const fromHeaders = (buf) => {
 
 class Messages extends EventEmitter {
   /**
-   * @param {WS.Server} wss
+   * @param {WebSocketServer} wss
    */
   constructor (wss) {
     super()
@@ -41,7 +41,7 @@ class Messages extends EventEmitter {
 
     this.info = {
       uri: '',
-      ma: new Multiaddr('/ip4/127.0.0.1/tcp/0/ws')
+      ma: multiaddr('/ip4/127.0.0.1/tcp/0/ws')
     }
 
     wss.on('connection', (ws, request) => {
@@ -87,12 +87,12 @@ class Messages extends EventEmitter {
           // which is not how this server runs: https://nodejs.org/dist/latest-v15.x/docs/api/net.html#net_server_address
           this.info = {
             uri: info,
-            ma: new Multiaddr(info)
+            ma: multiaddr(info)
           }
         } else {
           this.info = {
             uri: `http://${info.address}:${info.port}`,
-            ma: new Multiaddr(`/ip4/${info.address}/tcp/${info.port}/ws`)
+            ma: multiaddr(`/ip4/${info.address}/tcp/${info.port}/ws`)
           }
         }
 
@@ -119,7 +119,7 @@ export async function webSocketServer (ipfs, options = {}) {
 
   log(`starting ws server on ${host}:${port}`)
 
-  const wss = new WS.Server({
+  const wss = new WebSocketServer({
     host,
     port: parseInt(port, 10)
   })

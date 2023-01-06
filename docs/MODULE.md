@@ -102,7 +102,7 @@ Instead of a boolean, you may provide an object with custom initialization optio
 - `privateKey` (string/PeerId) A pre-generated private key to use. Can be either a base64 string or a [PeerId](https://github.com/libp2p/js-peer-id) instance. **NOTE: This overrides `bits`.**
     ```js
     // Generating a Peer ID:
-    import PeerId from 'peer-id'
+    import { PeerId } from '@libp2p/interface-peer-id'
     // Generates a new Peer ID, complete with public/private keypair
     // See https://github.com/libp2p/js-peer-id
     const peerId = await PeerId.create({ bits: 2048 })
@@ -377,14 +377,14 @@ Aside from the default export, `ipfs` exports various types and utilities that a
 - [`crypto`](https://www.npmjs.com/package/libp2p-crypto)
 - [`isIPFS`](https://www.npmjs.com/package/is-ipfs)
 - [`Buffer`](https://www.npmjs.com/package/buffer)
-- [`PeerId`](https://www.npmjs.com/package/peer-id)
+- [`PeerId`](https://docs.libp2p.io/concepts/peer-id/)
 - [`PeerInfo`](https://www.npmjs.com/package/peer-info)
 - [`multiaddr`](https://www.npmjs.com/package/multiaddr)
 - [`multibase`](https://www.npmjs.com/package/multibase)
 - [`multihash`](https://www.npmjs.com/package/multihashes)
 - [`multihashing`](https://www.npmjs.com/package/multihashing-async)
 - [`multicodec`](https://www.npmjs.com/package/multicodec)
-- [`CID`](https://www.npmjs.com/package/cids)
+- [`CID`](https://docs.ipfs.io/concepts/content-addressing)
 
 These can be accessed like this, for example:
 

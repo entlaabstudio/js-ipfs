@@ -1,16 +1,16 @@
 
 /* eslint-env browser */
 
-import { Multiaddr } from 'multiaddr'
+import { isMultiaddr } from '@multiformats/multiaddr'
 import { isBrowser, isWebWorker, isNode } from 'ipfs-utils/src/env.js'
 import parseDuration from 'parse-duration'
-import debug from 'debug'
+import { logger } from '@libp2p/logger'
 import HTTP from 'ipfs-utils/src/http.js'
 import mergeOpts from 'merge-options'
 import { toUrlString } from 'ipfs-core-utils/to-url-string'
 import getAgent from 'ipfs-core-utils/agent'
 
-const log = debug('ipfs-http-client:lib:error-handler')
+const log = logger('ipfs-http-client:lib:error-handler')
 const merge = mergeOpts.bind({ ignoreUndefined: true })
 
 const DEFAULT_PROTOCOL = isBrowser || isWebWorker ? location.protocol : 'http'
@@ -20,6 +20,7 @@ const DEFAULT_PORT = isBrowser || isWebWorker ? location.port : '5001'
 /**
  * @typedef {import('ipfs-utils/src/types').HTTPOptions} HTTPOptions
  * @typedef {import('../types').Options} Options
+ * @typedef {import('@multiformats/multiaddr').Multiaddr} Multiaddr
  */
 
 /**
@@ -32,11 +33,11 @@ const normalizeOptions = (options = {}) => {
   let opts = {}
   let agent
 
-  if (typeof options === 'string' || Multiaddr.isMultiaddr(options)) {
+  if (typeof options === 'string' || isMultiaddr(options)) {
     url = new URL(toUrlString(options))
   } else if (options instanceof URL) {
     url = options
-  } else if (typeof options.url === 'string' || Multiaddr.isMultiaddr(options.url)) {
+  } else if (typeof options.url === 'string' || isMultiaddr(options.url)) {
     url = new URL(toUrlString(options.url))
     opts = options
   } else if (options.url instanceof URL) {
@@ -160,7 +161,6 @@ export class Client extends HTTP {
       transformSearchParams: (search) => {
         const out = new URLSearchParams()
 
-        // @ts-ignore https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
         for (const [key, value] of search) {
           if (
             value !== 'undefined' &&
@@ -170,7 +170,7 @@ export class Client extends HTTP {
             out.append(kebabCase(key), value)
           }
 
-          // @ts-ignore server timeouts are strings
+          // @ts-expect-error server timeouts are strings
           if (key === 'timeout' && !isNaN(value)) {
             out.append(kebabCase(key), value)
           }
@@ -178,17 +178,17 @@ export class Client extends HTTP {
 
         return out
       },
-      // @ts-ignore this can be a https agent or a http agent
+      // @ts-expect-error this can be a https agent or a http agent
       agent: opts.agent
     })
 
-    // @ts-ignore - cannot delete no-optional fields
+    // @ts-expect-error - cannot delete no-optional fields
     delete this.get
-    // @ts-ignore - cannot delete no-optional fields
+    // @ts-expect-error - cannot delete no-optional fields
     delete this.put
-    // @ts-ignore - cannot delete no-optional fields
+    // @ts-expect-error - cannot delete no-optional fields
     delete this.delete
-    // @ts-ignore - cannot delete no-optional fields
+    // @ts-expect-error - cannot delete no-optional fields
     delete this.options
 
     const fetch = this.fetch

@@ -11,7 +11,7 @@ import { CID } from 'multiformats/cid'
 import { sha256 } from 'multiformats/hashes/sha2'
 import { base32 } from 'multiformats/bases/base32'
 import { base64url } from 'multiformats/bases/base64'
-import { expect } from 'aegir/utils/chai.js'
+import { expect } from 'aegir/chai'
 import { getDescribe, getIt } from '../utils/mocha.js'
 import testTimeout from '../utils/test-timeout.js'
 import { identity } from 'multiformats/hashes/identity'
@@ -24,7 +24,7 @@ import { ES256KSigner, createJWS } from 'did-jwt'
 
 /**
  * @param {Factory} factory
- * @param {Object} options
+ * @param {object} options
  */
 export function testGet (factory, options) {
   const describe = getDescribe(options)
@@ -105,7 +105,7 @@ export function testGet (factory, options) {
       await ipfs.dag.put(nodePb, { storeCodec: 'dag-pb', hashAlg: 'sha2-256' })
       await ipfs.dag.put(nodeCbor, { storeCodec: 'dag-cbor', hashAlg: 'sha2-256' })
 
-      const signer = ES256KSigner('278a5de700e29faae8e40e366ec5012b5ec63d36ec77e8a2417154cc1d25383f')
+      const signer = ES256KSigner(uint8ArrayFromString('278a5de700e29faae8e40e366ec5012b5ec63d36ec77e8a2417154cc1d25383f', 'hex'))
       nodeJose = await createJWS(base64url.encode(cidCbor.bytes).slice(1), signer)
       cidJose = CID.createV1(dagJOSE.code, await sha256.digest(dagJOSE.encode(nodeJose)))
       await ipfs.dag.put(nodeJose, { storeCodec: dagJOSE.name, hashAlg: 'sha2-256' })

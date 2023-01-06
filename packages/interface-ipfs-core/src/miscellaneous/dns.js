@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 
-import { expect } from 'aegir/utils/chai.js'
+import { expect } from 'aegir/chai'
 import { getDescribe, getIt } from '../utils/mocha.js'
 
 /**
@@ -9,7 +9,7 @@ import { getDescribe, getIt } from '../utils/mocha.js'
 
 /**
  * @param {Factory} factory
- * @param {Object} options
+ * @param {object} options
  */
 export function testDns (factory, options) {
   const describe = getDescribe(options)
@@ -29,14 +29,20 @@ export function testDns (factory, options) {
     after(() => factory.clean())
 
     it('should non-recursively resolve ipfs.io', async function () {
+      const domain = 'ipfs.io'
+
       try {
-        const res = await ipfs.dns('ipfs.io', { recursive: false })
+        const res = await ipfs.dns(domain, { recursive: false })
 
         // matches pattern /ipns/<ipnsaddress>
         expect(res).to.match(/\/ipns\/.+$/)
       } catch (/** @type {any} */ err) {
         if (err.message.includes('could not resolve name')) {
-          // @ts-ignore this is mocha
+          return this.skip()
+        }
+
+        // happens when running tests offline
+        if (err.message.includes(`ECONNREFUSED ${domain}`)) {
           return this.skip()
         }
 
@@ -45,14 +51,20 @@ export function testDns (factory, options) {
     })
 
     it('should recursively resolve ipfs.io', async function () {
+      const domain = 'ipfs.io'
+
       try {
-        const res = await ipfs.dns('ipfs.io', { recursive: true })
+        const res = await ipfs.dns(domain, { recursive: true })
 
         // matches pattern /ipfs/<hash>
         expect(res).to.match(/\/ipfs\/.+$/)
       } catch (/** @type {any} */ err) {
         if (err.message.includes('could not resolve name')) {
-          // @ts-ignore this is mocha
+          return this.skip()
+        }
+
+        // happens when running tests offline
+        if (err.message.includes(`ECONNREFUSED ${domain}`)) {
           return this.skip()
         }
 
@@ -61,14 +73,20 @@ export function testDns (factory, options) {
     })
 
     it('should resolve subdomain docs.ipfs.io', async function () {
+      const domain = 'docs.ipfs.io'
+
       try {
-        const res = await ipfs.dns('docs.ipfs.io')
+        const res = await ipfs.dns(domain)
 
         // matches pattern /ipfs/<hash>
         expect(res).to.match(/\/ipfs\/.+$/)
       } catch (/** @type {any} */ err) {
         if (err.message.includes('could not resolve name')) {
-          // @ts-ignore this is mocha
+          return this.skip()
+        }
+
+        // happens when running tests offline
+        if (err.message.includes(`ECONNREFUSED ${domain}`)) {
           return this.skip()
         }
 

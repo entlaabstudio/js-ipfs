@@ -4,7 +4,7 @@ import { CID } from 'multiformats/cid'
 
 /**
  * @typedef {import('ipfs-unixfs').MtimeLike} MtimeLike
- * @typedef {import('multiformats/cid').CIDVersion} CIDVersion
+ * @typedef {import('multiformats/cid').Version} CIDVersion
  * @typedef {import('../').MfsContext} MfsContext
  */
 
@@ -22,7 +22,6 @@ export async function createNode (context, type, options) {
   const metadata = new UnixFS({
     type,
     mode: options.mode,
-    // @ts-ignore TODO: restore hrtime support to ipfs-unixfs constructor - it's in the code, just not the signature
     mtime: options.mtime
   })
 

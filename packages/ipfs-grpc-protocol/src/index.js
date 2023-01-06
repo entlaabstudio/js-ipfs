@@ -109,7 +109,7 @@ export default {
               type: 'string',
               id: 2
             },
-            seqno: {
+            sequenceNumber: {
               type: 'bytes',
               id: 3
             },
@@ -117,10 +117,21 @@ export default {
               type: 'bytes',
               id: 4
             },
-            topicIDs: {
-              rule: 'repeated',
+            topic: {
               type: 'string',
               id: 5
+            },
+            key: {
+              type: 'bytes',
+              id: 6
+            },
+            signature: {
+              type: 'bytes',
+              id: 7
+            },
+            type: {
+              type: 'string',
+              id: 8
             }
           }
         },

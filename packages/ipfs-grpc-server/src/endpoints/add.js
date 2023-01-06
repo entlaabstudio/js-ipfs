@@ -1,4 +1,4 @@
-import pushable from 'it-pushable'
+import { pushable } from 'it-pushable'
 import { pipe } from 'it-pipe'
 import { encodeMtime } from '../utils/encode-mtime.js'
 
@@ -26,7 +26,7 @@ export function grpcAdd (ipfs, options = {}) {
 
     await pipe(
       async function * toInput () {
-        const fileInputStream = pushable()
+        const fileInputStream = pushable({ objectMode: true })
 
         setTimeout(async () => {
           const streams = []

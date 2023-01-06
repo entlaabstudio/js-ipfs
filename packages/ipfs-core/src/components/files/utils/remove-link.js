@@ -1,8 +1,7 @@
 
-// @ts-ignore - TODO vmx 2021-03-31
 import * as dagPB from '@ipld/dag-pb'
 import { CID } from 'multiformats/cid'
-import debug from 'debug'
+import { logger } from '@libp2p/logger'
 import { UnixFS } from 'ipfs-unixfs'
 import {
   generatePath,
@@ -10,11 +9,11 @@ import {
 } from './hamt-utils.js'
 import errCode from 'err-code'
 
-const log = debug('ipfs:mfs:core:utils:remove-link')
+const log = logger('ipfs:mfs:core:utils:remove-link')
 
 /**
  * @typedef {import('../').MfsContext} MfsContext
- * @typedef {import('multiformats/cid').CIDVersion} CIDVersion
+ * @typedef {import('multiformats/cid').Version} CIDVersion
  * @typedef {import('hamt-sharding').Bucket<any>} Bucket
  * @typedef {import('@ipld/dag-pb').PBNode} PBNode
  *

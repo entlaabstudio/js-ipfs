@@ -1,7 +1,7 @@
 import { CID } from 'multiformats/cid'
 
 /**
- * @typedef {Object} EncodedCID
+ * @typedef {object} EncodedCID
  * @property {number} code
  * @property {object} multihash
  * @property {Uint8Array} multihash.digest
@@ -33,18 +33,17 @@ export const encodeCID = (cid, transfer) => {
  */
 export const decodeCID = encodedCID => {
   /** @type {CID} */
+  // @ts-expect-error we are converting this into an object compatible with the CID class
   const cid = (encodedCID)
 
-  // @ts-ignore non-enumerable field that doesn't always get transferred
-  if (!cid._baseCache) {
-    Object.defineProperty(cid, '_baseCache', {
-      value: new Map()
+  if (!cid.asCID) {
+    Object.defineProperty(cid, 'asCID', {
+      get: () => cid
     })
   }
 
-  // @ts-ignore non-enumerable field that doesn't always get transferred
-  if (!cid.asCID) {
-    Object.defineProperty(cid, 'asCID', {
+  if (!cid['/']) {
+    Object.defineProperty(cid, '/', {
       get: () => cid
     })
   }
@@ -53,10 +52,6 @@ export const decodeCID = encodedCID => {
   Object.setPrototypeOf(cid.multihash.bytes, Uint8Array.prototype)
   Object.setPrototypeOf(cid.bytes, Uint8Array.prototype)
   Object.setPrototypeOf(cid, CID.prototype)
-  // TODO: Figure out a way to avoid `Symbol.for` here as it can get out of
-  // sync with cids implementation.
-  // See: https://github.com/moxystudio/js-class-is/issues/25
-  Object.defineProperty(cid, Symbol.for('@ipld/js-cid/CID'), { value: true })
 
   return cid
 }

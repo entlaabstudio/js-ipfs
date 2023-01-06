@@ -1,18 +1,18 @@
 {
   "extends": "aegir/src/config/tsconfig.aegir.json",
   "compilerOptions": {
-    "outDir": "types",
-    "module": "es2020"
+    "outDir": "dist",
+    "emitDeclarationOnly": true
   },
   "include": [
     "src"
   ],
   "references": [
     {
-      "path": "../ipfs-http-client"
+      "path": "../ipfs-grpc-client"
     },
     {
-      "path": "../ipfs-grpc-client"
+      "path": "../ipfs-http-client"
     }
   ]
 }

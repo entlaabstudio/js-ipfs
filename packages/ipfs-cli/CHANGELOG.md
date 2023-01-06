@@ -3,36 +3,175 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [0.11.0](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.10.2...ipfs-cli@0.11.0) (2021-12-15)
+## [0.15.0](https://www.github.com/ipfs/js-ipfs/compare/ipfs-cli-v0.14.2...ipfs-cli-v0.15.0) (2022-10-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* ipfs is now bundled with libp2p@0.40.x which has different config
+
+### Features
+
+* upgrade libp2p to 0.40.x ([#4237](https://www.github.com/ipfs/js-ipfs/issues/4237)) ([0cee4a4](https://www.github.com/ipfs/js-ipfs/commit/0cee4a4c55767022584dcbade0b0b9b43326f9c9))
 
 
 ### Bug Fixes
 
-* ensure directory is passed ([#3968](https://github.com/ipfs/js-ipfs/issues/3968)) ([80ac58c](https://github.com/ipfs/js-ipfs/commit/80ac58ca27cc9f21823a23d1e6357f738fdb6781))
-* **pubsub:** multibase in pubsub http rpc ([#3922](https://github.com/ipfs/js-ipfs/issues/3922)) ([6eeaca4](https://github.com/ipfs/js-ipfs/commit/6eeaca452c36fa13be42d704575c577e4ca938f1))
+* replace slice with subarray for increased performance ([#4210](https://www.github.com/ipfs/js-ipfs/issues/4210)) ([dfc43d4](https://www.github.com/ipfs/js-ipfs/commit/dfc43d4e9be67fdf25553677f469379d966ff806))
 
 
-### chore
+### Dependencies
 
-* Bump @ipld/dag-cbor to v7 ([#3977](https://github.com/ipfs/js-ipfs/issues/3977)) ([73476f5](https://github.com/ipfs/js-ipfs/commit/73476f55e39ecfb01eb2b4880637aad658f51bc2))
+* The following workspace dependencies were updated
+  * dependencies
+    * ipfs-core bumped from ^0.16.1 to ^0.17.0
+    * ipfs-core-types bumped from ^0.12.1 to ^0.13.0
+    * ipfs-core-utils bumped from ^0.16.1 to ^0.17.0
+    * ipfs-daemon bumped from ^0.14.2 to ^0.15.0
+    * ipfs-http-client bumped from ^58.0.1 to ^59.0.0
 
+### [0.14.2](https://www.github.com/ipfs/js-ipfs/compare/ipfs-cli-v0.14.1...ipfs-cli-v0.14.2) (2022-09-21)
+
+
+### Bug Fixes
+
+* update @multiformats/multiadd to 11.0.0 ([2a830bf](https://www.github.com/ipfs/js-ipfs/commit/2a830bf58a5929fcce51dede871c99f62192fbda))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * ipfs-core bumped from ^0.16.0 to ^0.16.1
+    * ipfs-core-types bumped from ^0.12.0 to ^0.12.1
+    * ipfs-core-utils bumped from ^0.16.0 to ^0.16.1
+    * ipfs-daemon bumped from ^0.14.1 to ^0.14.2
+    * ipfs-http-client bumped from ^58.0.0 to ^58.0.1
+
+### [0.14.1](https://www.github.com/ipfs/js-ipfs/compare/ipfs-cli-v0.14.0...ipfs-cli-v0.14.1) (2022-09-16)
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * ipfs-daemon bumped from ^0.14.0 to ^0.14.1
+
+## [0.14.0](https://www.github.com/ipfs/js-ipfs/compare/ipfs-cli-v0.13.5...ipfs-cli-v0.14.0) (2022-09-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* update to libp2p@0.38.x (#4151)
+
+### deps
+
+* update to libp2p@0.38.x ([#4151](https://www.github.com/ipfs/js-ipfs/issues/4151)) ([39dbf70](https://www.github.com/ipfs/js-ipfs/commit/39dbf708ec31b263115e44f420651fa4e056a89e))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * ipfs-core bumped from ^0.15.0 to ^0.16.0
+    * ipfs-core-types bumped from ^0.11.0 to ^0.12.0
+    * ipfs-core-utils bumped from ^0.15.0 to ^0.16.0
+    * ipfs-daemon bumped from ^0.13.0 to ^0.14.0
+    * ipfs-http-client bumped from ^57.0.0 to ^58.0.0
+
+### [0.13.5](https://www.github.com/ipfs/js-ipfs/compare/ipfs-cli-v0.13.4...ipfs-cli-v0.13.5) (2022-06-24)
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * ipfs-core bumped from ^0.15.3 to ^0.15.4
+    * ipfs-daemon bumped from ^0.13.4 to ^0.13.5
+    * ipfs-http-client bumped from ^57.0.2 to ^57.0.3
+
+### [0.13.4](https://www.github.com/ipfs/js-ipfs/compare/ipfs-cli-v0.13.3...ipfs-cli-v0.13.4) (2022-06-22)
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * ipfs-core bumped from ^0.15.2 to ^0.15.3
+    * ipfs-core-types bumped from ^0.11.0 to ^0.11.1
+    * ipfs-core-utils bumped from ^0.15.0 to ^0.15.1
+    * ipfs-daemon bumped from ^0.13.3 to ^0.13.4
+    * ipfs-http-client bumped from ^57.0.1 to ^57.0.2
+
+### [0.13.3](https://www.github.com/ipfs/js-ipfs/compare/ipfs-cli-v0.13.2...ipfs-cli-v0.13.3) (2022-06-13)
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * ipfs-core bumped from ^0.15.1 to ^0.15.2
+    * ipfs-daemon bumped from ^0.13.2 to ^0.13.3
+
+### [0.13.2](https://www.github.com/ipfs/js-ipfs/compare/ipfs-cli-v0.13.1...ipfs-cli-v0.13.2) (2022-06-01)
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * ipfs-core bumped from ^0.15.0 to ^0.15.1
+    * ipfs-daemon bumped from ^0.13.1 to ^0.13.2
+    * ipfs-http-client bumped from ^57.0.0 to ^57.0.1
+
+### [0.13.1](https://www.github.com/ipfs/js-ipfs/compare/ipfs-cli-v0.13.0...ipfs-cli-v0.13.1) (2022-05-30)
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * ipfs-daemon bumped from ^0.13.0 to ^0.13.1
+
+## [0.13.0](https://www.github.com/ipfs/js-ipfs/compare/ipfs-cli-v0.12.3...ipfs-cli-v0.13.0) (2022-05-27)
+
+
+### ⚠ BREAKING CHANGES
+
+* This module is now ESM only and there return types of some methods have changed
 
 ### Features
 
-* dht client ([#3947](https://github.com/ipfs/js-ipfs/issues/3947)) ([62d8ecb](https://github.com/ipfs/js-ipfs/commit/62d8ecbc723e693a2544e69172d99c576d187c23))
-* update DAG API to match go-ipfs@0.10 changes ([#3917](https://github.com/ipfs/js-ipfs/issues/3917)) ([38c01be](https://github.com/ipfs/js-ipfs/commit/38c01be03b4fd5f401cd9b698cfdb4237d835b01))
+* update to libp2p 0.37.x ([#4092](https://www.github.com/ipfs/js-ipfs/issues/4092)) ([74aee8b](https://www.github.com/ipfs/js-ipfs/commit/74aee8b3d78f233c3199a3e9a6c0ac628a31a433))
 
 
-### BREAKING CHANGES
+### Dependencies
 
-* **pubsub:** We had to make breaking changes to `pubsub` commands sent over HTTP RPC  to fix data corruption caused by topic names and payload bytes that included `\n`. More details in https://github.com/ipfs/go-ipfs/issues/7939 and https://github.com/ipfs/go-ipfs/pull/8183 
-* On decode of CBOR blocks, `undefined` values will be coerced to `null`
-* `ipfs.dag.put` no longer accepts a `format` arg, it is now `storeCodec` and `inputCodec`.  `'json'` has become `'dag-json'`, `'cbor'` has become `'dag-cbor'` and so on
-* The DHT API has been refactored to return async iterators of query events
+* The following workspace dependencies were updated
+  * dependencies
+    * ipfs-core bumped from ^0.14.3 to ^0.15.0
+    * ipfs-core-types bumped from ^0.10.3 to ^0.11.0
+    * ipfs-core-utils bumped from ^0.14.3 to ^0.15.0
+    * ipfs-daemon bumped from ^0.12.2 to ^0.13.0
+    * ipfs-http-client bumped from ^56.0.3 to ^57.0.0
+
+### [0.12.3](https://www.github.com/ipfs/js-ipfs/compare/ipfs-cli-v0.12.2...ipfs-cli-v0.12.3) (2022-04-20)
 
 
+### Bug Fixes
+
+* upgrade dep of ipfs-utils ^9.0.2->^9.0.6 ([#4086](https://www.github.com/ipfs/js-ipfs/issues/4086)) ([8f7ce23](https://www.github.com/ipfs/js-ipfs/commit/8f7ce23c18be12bdc52b98bfccbd0a5a2a9c9f7e)), closes [#4080](https://www.github.com/ipfs/js-ipfs/issues/4080)
 
 
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * ipfs-core bumped from ^0.14.2 to ^0.14.3
+    * ipfs-core-types bumped from ^0.10.2 to ^0.10.3
+    * ipfs-core-utils bumped from ^0.14.2 to ^0.14.3
+    * ipfs-daemon bumped from ^0.12.2 to ^0.12.3
+    * ipfs-http-client bumped from ^56.0.2 to ^56.0.3
 
 ### [0.12.2](https://www.github.com/ipfs/js-ipfs/compare/ipfs-cli-v0.12.1...ipfs-cli-v0.12.2) (2022-03-01)
 
@@ -87,6 +226,35 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
     * ipfs-daemon bumped from ^0.11.0 to ^0.12.0
     * ipfs-http-client bumped from ^55.0.0 to ^56.0.0
 
+
+## [0.11.0](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.10.2...ipfs-cli@0.11.0) (2021-12-15)
+
+
+### Bug Fixes
+
+* ensure directory is passed ([#3968](https://github.com/ipfs/js-ipfs/issues/3968)) ([80ac58c](https://github.com/ipfs/js-ipfs/commit/80ac58ca27cc9f21823a23d1e6357f738fdb6781))
+* **pubsub:** multibase in pubsub http rpc ([#3922](https://github.com/ipfs/js-ipfs/issues/3922)) ([6eeaca4](https://github.com/ipfs/js-ipfs/commit/6eeaca452c36fa13be42d704575c577e4ca938f1))
+
+
+### chore
+
+* Bump @ipld/dag-cbor to v7 ([#3977](https://github.com/ipfs/js-ipfs/issues/3977)) ([73476f5](https://github.com/ipfs/js-ipfs/commit/73476f55e39ecfb01eb2b4880637aad658f51bc2))
+
+
+### Features
+
+* dht client ([#3947](https://github.com/ipfs/js-ipfs/issues/3947)) ([62d8ecb](https://github.com/ipfs/js-ipfs/commit/62d8ecbc723e693a2544e69172d99c576d187c23))
+* update DAG API to match go-ipfs@0.10 changes ([#3917](https://github.com/ipfs/js-ipfs/issues/3917)) ([38c01be](https://github.com/ipfs/js-ipfs/commit/38c01be03b4fd5f401cd9b698cfdb4237d835b01))
+
+
+### BREAKING CHANGES
+
+* **pubsub:** We had to make breaking changes to `pubsub` commands sent over HTTP RPC  to fix data corruption caused by topic names and payload bytes that included `\n`. More details in https://github.com/ipfs/go-ipfs/issues/7939 and https://github.com/ipfs/go-ipfs/pull/8183
+* On decode of CBOR blocks, `undefined` values will be coerced to `null`
+* `ipfs.dag.put` no longer accepts a `format` arg, it is now `storeCodec` and `inputCodec`.  `'json'` has become `'dag-json'`, `'cbor'` has become `'dag-cbor'` and so on
+* The DHT API has been refactored to return async iterators of query events
+
+
 ## [0.10.2](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.10.1...ipfs-cli@0.10.2) (2021-11-24)
 
 **Note:** Version bump only for package ipfs-cli
@@ -103,7 +271,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-# [0.10.0](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.9.1...ipfs-cli@0.10.0) (2021-11-12)
+## [0.10.0](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.9.1...ipfs-cli@0.10.0) (2021-11-12)
 
 
 ### Bug Fixes
@@ -119,7 +287,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [0.9.1](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.9.0...ipfs-cli@0.9.1) (2021-09-28)
+### [0.9.1](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.9.0...ipfs-cli@0.9.1) (2021-09-28)
 
 **Note:** Version bump only for package ipfs-cli
 
@@ -127,7 +295,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-# [0.9.0](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.8.8...ipfs-cli@0.9.0) (2021-09-24)
+## [0.9.0](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.8.8...ipfs-cli@0.9.0) (2021-09-24)
 
 
 ### Features
@@ -145,7 +313,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [0.8.8](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.8.7...ipfs-cli@0.8.8) (2021-09-17)
+### [0.8.8](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.8.7...ipfs-cli@0.8.8) (2021-09-17)
 
 **Note:** Version bump only for package ipfs-cli
 
@@ -153,7 +321,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [0.8.7](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.8.6...ipfs-cli@0.8.7) (2021-09-17)
+### [0.8.7](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.8.6...ipfs-cli@0.8.7) (2021-09-17)
 
 **Note:** Version bump only for package ipfs-cli
 
@@ -161,7 +329,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [0.8.6](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.8.5...ipfs-cli@0.8.6) (2021-09-08)
+### [0.8.6](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.8.5...ipfs-cli@0.8.6) (2021-09-08)
 
 **Note:** Version bump only for package ipfs-cli
 
@@ -169,7 +337,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [0.8.5](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.8.4...ipfs-cli@0.8.5) (2021-09-02)
+### [0.8.5](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.8.4...ipfs-cli@0.8.5) (2021-09-02)
 
 
 ### Bug Fixes
@@ -181,7 +349,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [0.8.4](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.8.3...ipfs-cli@0.8.4) (2021-08-25)
+### [0.8.4](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.8.3...ipfs-cli@0.8.4) (2021-08-25)
 
 
 ### Bug Fixes
@@ -192,7 +360,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [0.8.3](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.8.1...ipfs-cli@0.8.3) (2021-08-17)
+### [0.8.3](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.8.1...ipfs-cli@0.8.3) (2021-08-17)
 
 **Note:** Version bump only for package ipfs-cli
 
@@ -200,7 +368,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [0.8.1](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.8.0...ipfs-cli@0.8.1) (2021-08-17)
+### [0.8.1](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.8.0...ipfs-cli@0.8.1) (2021-08-17)
 
 
 ### Bug Fixes
@@ -211,7 +379,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-# [0.8.0](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.7.1...ipfs-cli@0.8.0) (2021-08-11)
+## [0.8.0](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.7.1...ipfs-cli@0.8.0) (2021-08-11)
 
 
 ### Features
@@ -228,7 +396,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [0.7.1](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.7.0...ipfs-cli@0.7.1) (2021-07-30)
+### [0.7.1](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.7.0...ipfs-cli@0.7.1) (2021-07-30)
 
 **Note:** Version bump only for package ipfs-cli
 
@@ -236,7 +404,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-# [0.7.0](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.6.2...ipfs-cli@0.7.0) (2021-07-27)
+## [0.7.0](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.6.2...ipfs-cli@0.7.0) (2021-07-27)
 
 
 ### Bug Fixes
@@ -264,7 +432,7 @@ Co-authored-by: achingbrain <alex@achingbrain.net>
 
 
 
-## [0.6.2](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.6.1...ipfs-cli@0.6.2) (2021-06-18)
+### [0.6.2](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.6.1...ipfs-cli@0.6.2) (2021-06-18)
 
 **Note:** Version bump only for package ipfs-cli
 
@@ -272,7 +440,7 @@ Co-authored-by: achingbrain <alex@achingbrain.net>
 
 
 
-## [0.6.1](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.6.0...ipfs-cli@0.6.1) (2021-06-05)
+### [0.6.1](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.6.0...ipfs-cli@0.6.1) (2021-06-05)
 
 
 ### Bug Fixes
@@ -283,7 +451,7 @@ Co-authored-by: achingbrain <alex@achingbrain.net>
 
 
 
-# [0.6.0](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.5.1...ipfs-cli@0.6.0) (2021-05-26)
+## [0.6.0](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.5.1...ipfs-cli@0.6.0) (2021-05-26)
 
 
 ### Features
@@ -294,7 +462,7 @@ Co-authored-by: achingbrain <alex@achingbrain.net>
 
 
 
-## [0.5.1](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.5.0...ipfs-cli@0.5.1) (2021-05-11)
+### [0.5.1](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.5.0...ipfs-cli@0.5.1) (2021-05-11)
 
 **Note:** Version bump only for package ipfs-cli
 
@@ -302,7 +470,7 @@ Co-authored-by: achingbrain <alex@achingbrain.net>
 
 
 
-# [0.5.0](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.4.4...ipfs-cli@0.5.0) (2021-05-10)
+## [0.5.0](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.4.4...ipfs-cli@0.5.0) (2021-05-10)
 
 
 ### Bug Fixes
@@ -325,7 +493,7 @@ Co-authored-by: achingbrain <alex@achingbrain.net>
 
 
 
-## [0.4.4](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.4.3...ipfs-cli@0.4.4) (2021-03-10)
+### [0.4.4](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.4.3...ipfs-cli@0.4.4) (2021-03-10)
 
 **Note:** Version bump only for package ipfs-cli
 
@@ -333,7 +501,7 @@ Co-authored-by: achingbrain <alex@achingbrain.net>
 
 
 
-## [0.4.3](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.4.2...ipfs-cli@0.4.3) (2021-03-09)
+### [0.4.3](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.4.2...ipfs-cli@0.4.3) (2021-03-09)
 
 
 ### Bug Fixes
@@ -344,7 +512,7 @@ Co-authored-by: achingbrain <alex@achingbrain.net>
 
 
 
-## [0.4.2](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.4.1...ipfs-cli@0.4.2) (2021-02-08)
+### [0.4.2](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.4.1...ipfs-cli@0.4.2) (2021-02-08)
 
 **Note:** Version bump only for package ipfs-cli
 
@@ -352,7 +520,7 @@ Co-authored-by: achingbrain <alex@achingbrain.net>
 
 
 
-## [0.4.1](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.4.0...ipfs-cli@0.4.1) (2021-02-02)
+### [0.4.1](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.4.0...ipfs-cli@0.4.1) (2021-02-02)
 
 **Note:** Version bump only for package ipfs-cli
 
@@ -360,7 +528,7 @@ Co-authored-by: achingbrain <alex@achingbrain.net>
 
 
 
-# [0.4.0](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.3.2...ipfs-cli@0.4.0) (2021-02-01)
+## [0.4.0](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.3.2...ipfs-cli@0.4.0) (2021-02-01)
 
 
 ### Bug Fixes
@@ -381,7 +549,7 @@ Co-authored-by: achingbrain <alex@achingbrain.net>
 
 
 
-## [0.3.2](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.3.1...ipfs-cli@0.3.2) (2021-01-22)
+### [0.3.2](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.3.1...ipfs-cli@0.3.2) (2021-01-22)
 
 **Note:** Version bump only for package ipfs-cli
 
@@ -389,7 +557,7 @@ Co-authored-by: achingbrain <alex@achingbrain.net>
 
 
 
-## [0.3.1](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.3.0...ipfs-cli@0.3.1) (2021-01-20)
+### [0.3.1](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.3.0...ipfs-cli@0.3.1) (2021-01-20)
 
 **Note:** Version bump only for package ipfs-cli
 
@@ -397,7 +565,7 @@ Co-authored-by: achingbrain <alex@achingbrain.net>
 
 
 
-# [0.3.0](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.2.3...ipfs-cli@0.3.0) (2021-01-15)
+## [0.3.0](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.2.3...ipfs-cli@0.3.0) (2021-01-15)
 
 
 ### Features
@@ -409,7 +577,7 @@ Co-authored-by: achingbrain <alex@achingbrain.net>
 
 
 
-## [0.2.3](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.2.2...ipfs-cli@0.2.3) (2020-12-16)
+### [0.2.3](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.2.2...ipfs-cli@0.2.3) (2020-12-16)
 
 
 ### Bug Fixes
@@ -420,7 +588,7 @@ Co-authored-by: achingbrain <alex@achingbrain.net>
 
 
 
-## [0.2.2](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.2.1...ipfs-cli@0.2.2) (2020-11-25)
+### [0.2.2](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.2.1...ipfs-cli@0.2.2) (2020-11-25)
 
 
 ### Bug Fixes
@@ -432,7 +600,7 @@ Co-authored-by: achingbrain <alex@achingbrain.net>
 
 
 
-## [0.2.1](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.2.0...ipfs-cli@0.2.1) (2020-11-16)
+### [0.2.1](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.2.0...ipfs-cli@0.2.1) (2020-11-16)
 
 
 ### Bug Fixes
@@ -444,7 +612,7 @@ Co-authored-by: achingbrain <alex@achingbrain.net>
 
 
 
-# [0.2.0](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.1.0...ipfs-cli@0.2.0) (2020-11-09)
+## [0.2.0](https://github.com/ipfs/js-ipfs/compare/ipfs-cli@0.1.0...ipfs-cli@0.2.0) (2020-11-09)
 
 
 ### Bug Fixes

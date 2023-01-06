@@ -1,8 +1,8 @@
 /* eslint-env mocha */
 
-import { expect } from 'aegir/utils/chai.js'
+import { expect } from 'aegir/chai'
 import { getDescribe, getIt } from '../utils/mocha.js'
-import { Multiaddr } from 'multiaddr'
+import { isMultiaddr } from '@multiformats/multiaddr'
 
 /**
  * @typedef {import('ipfsd-ctl').Factory} Factory
@@ -10,7 +10,7 @@ import { Multiaddr } from 'multiaddr'
 
 /**
  * @param {Factory} factory
- * @param {Object} options
+ * @param {object} options
  */
 export function testReset (factory, options) {
   const describe = getDescribe(options)
@@ -43,7 +43,7 @@ export function testReset (factory, options) {
       const removedPeers = rmRes.Peers
 
       expect(removedPeers.sort()).to.deep.equal(addedPeers.sort())
-      expect(addedPeers.every(ma => Multiaddr.isMultiaddr(ma))).to.be.true()
+      expect(addedPeers.every(ma => isMultiaddr(ma))).to.be.true()
     })
   })
 }

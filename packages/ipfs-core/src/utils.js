@@ -1,6 +1,6 @@
 /* eslint-disable no-unreachable */
 
-import isIpfs from 'is-ipfs'
+import * as isIpfs from 'is-ipfs'
 import { CID } from 'multiformats/cid'
 import { Key } from 'interface-datastore/key'
 import errCode from 'err-code'
@@ -147,7 +147,7 @@ export const mapFile = (file) => {
   }
 
   if (file.type === 'directory') {
-    // @ts-ignore - TS type can't be changed from File to Directory
+    // @ts-expect-error - TS type can't be changed from File to Directory
     output.type = 'dir'
   }
 

@@ -1,8 +1,6 @@
 {
   "version": "independent",
-  "packages": [
-    "packages/*"
-  ],
+  "useWorkspaces": true,
   "command": {
     "bootstrap": {
       "hoist": true
@@ -14,8 +12,7 @@
       "message": "chore: publish",
       "createRelease": "github",
       "conventionalCommits": true,
-      "verifyAccess": false,
-      "contents": "dist"
+      "verifyAccess": false
     },
     "version": {
       "allowBranch": ["master", "release/*"],

@@ -1,15 +1,17 @@
 import drain from 'it-drain'
 import { notFoundError } from 'datastore-core/errors'
-import debug from 'debug'
+import { logger } from '@libp2p/logger'
 
-const log = Object.assign(debug('ipfs:ipns:dht-datastore'), {
-  error: debug('ipfs:ipns:dht-datastore:error')
-})
+const log = logger('ipfs:ipns:dht-datastore')
+
+/**
+ * @typedef {import('@libp2p/interfaces').AbortOptions} AbortOptions
+ */
 
 export class DHTDatastore {
   /**
    *
-   * @param {import('libp2p-kad-dht/src/types').DHT} dht
+   * @param {import('@libp2p/interface-dht').DHT} dht
    */
   constructor (dht) {
     this._dht = dht
@@ -18,10 +20,11 @@ export class DHTDatastore {
   /**
    * @param {Uint8Array} key - identifier of the value.
    * @param {Uint8Array} value - value to be stored.
+   * @param {AbortOptions} [options]
    */
-  async put (key, value) {
+  async put (key, value, options) {
     try {
-      await drain(this._dht.put(key, value))
+      await drain(this._dht.put(key, value, options))
     } catch (/** @type {any} */ err) {
       log.error(err)
       throw err
@@ -30,9 +33,10 @@ export class DHTDatastore {
 
   /**
    * @param {Uint8Array} key - identifier of the value to be obtained.
+   * @param {AbortOptions} [options]
    */
-  async get (key) {
-    for await (const event of this._dht.get(key)) {
+  async get (key, options) {
+    for await (const event of this._dht.get(key, options)) {
       if (event.name === 'VALUE') {
         return event.value
       }

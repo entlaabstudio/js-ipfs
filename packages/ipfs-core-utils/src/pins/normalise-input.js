@@ -2,7 +2,7 @@ import errCode from 'err-code'
 import { CID } from 'multiformats/cid'
 
 /**
- * @typedef {Object} Pinnable
+ * @typedef {object} Pinnable
  * @property {string | InstanceType<typeof window.String> | CID} [path]
  * @property {CID} [cid]
  * @property {boolean} [recursive]
@@ -11,11 +11,35 @@ import { CID } from 'multiformats/cid'
  * @typedef {CID|string|InstanceType<typeof window.String>|Pinnable} ToPin
  * @typedef {ToPin|Iterable<ToPin>|AsyncIterable<ToPin>} Source
  *
- * @typedef {Object} Pin
+ * @typedef {object} Pin
  * @property {string|CID} path
  * @property {boolean} recursive
  * @property {any} [metadata]
  */
+
+/**
+ * @param {any} thing
+ * @returns {thing is IterableIterator<any> & Iterator<any>}
+ */
+function isIterable (thing) {
+  return Symbol.iterator in thing
+}
+
+/**
+ * @param {any} thing
+ * @returns {thing is AsyncIterableIterator<any> & AsyncIterator<any>}
+ */
+function isAsyncIterable (thing) {
+  return Symbol.asyncIterator in thing
+}
+
+/**
+ * @param {any} thing
+ * @returns {thing is CID}
+ */
+function isCID (thing) {
+  return CID.asCID(thing) != null
+}
 
 /**
  * Transform one of:
@@ -64,21 +88,23 @@ export async function * normaliseInput (input) {
   }
 
   // { cid: CID recursive, metadata }
-  // @ts-ignore - it still could be iterable or async iterable
+  // @ts-expect-error - it still could be iterable or async iterable
   if (input.cid != null || input.path != null) {
-    // @ts-ignore
+    // @ts-expect-error
     return yield toPin(input)
   }
 
   // Iterable<?>
-  if (Symbol.iterator in input) {
-    // @ts-ignore
+  if (isIterable(input)) {
     const iterator = input[Symbol.iterator]()
     const first = iterator.next()
-    if (first.done) return iterator
 
-    // Iterable<CID|String>
-    if (CID.asCID(first.value) || first.value instanceof String || typeof first.value === 'string') {
+    if (first.done) {
+      return iterator
+    }
+
+    // Iterable<CID>
+    if (isCID(first.value)) {
       yield toPin({ cid: first.value })
       for (const cid of iterator) {
         yield toPin({ cid })
@@ -86,7 +112,16 @@ export async function * normaliseInput (input) {
       return
     }
 
-    // Iterable<{ cid: CID recursive, metadata }>
+    // Iterable<String>
+    if (first.value instanceof String || typeof first.value === 'string') {
+      yield toPin({ path: first.value })
+      for (const path of iterator) {
+        yield toPin({ path })
+      }
+      return
+    }
+
+    // Iterable<Pinnable>
     if (first.value.cid != null || first.value.path != null) {
       yield toPin(first.value)
       for (const obj of iterator) {
@@ -99,17 +134,25 @@ export async function * normaliseInput (input) {
   }
 
   // AsyncIterable<?>
-  if (Symbol.asyncIterator in input) {
-    // @ts-ignore
+  if (isAsyncIterable(input)) {
     const iterator = input[Symbol.asyncIterator]()
     const first = await iterator.next()
     if (first.done) return iterator
 
-    // AsyncIterable<CID|String>
-    if (CID.asCID(first.value) || first.value instanceof String || typeof first.value === 'string') {
+    // AsyncIterable<CID>
+    if (isCID(first.value)) {
       yield toPin({ cid: first.value })
       for await (const cid of iterator) {
         yield toPin({ cid })
+      }
+      return
+    }
+
+    // AsyncIterable<String>
+    if (first.value instanceof String || typeof first.value === 'string') {
+      yield toPin({ path: first.value })
+      for await (const path of iterator) {
+        yield toPin({ path })
       }
       return
     }

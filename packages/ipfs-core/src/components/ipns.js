@@ -2,25 +2,27 @@ import { IPNS } from '../ipns/index.js'
 import { createRouting } from '../ipns/routing/config.js'
 import { OfflineDatastore } from '../ipns/routing/offline-datastore.js'
 import { NotInitializedError, AlreadyInitializedError } from '../errors.js'
-import debug from 'debug'
-const log = debug('ipfs:components:ipns')
+import { logger } from '@libp2p/logger'
+
+const log = logger('ipfs:components:ipns')
 
 /**
- * @typedef {import('libp2p-crypto').PrivateKey} PrivateKey
+ * @typedef {import('@libp2p/interface-peer-id').PeerId} PeerId
+ * @typedef {import('@libp2p/interfaces').AbortOptions} AbortOptions
  *
- * @typedef {Object} ExperimentalOptions
+ * @typedef {object} ExperimentalOptions
  * @property {boolean} [ipnsPubsub]
  *
- * @typedef {Object} LibP2POptions
+ * @typedef {object} LibP2POptions
  * @property {DHTConfig} [config]
  *
- * @typedef {Object} DHTConfig
+ * @typedef {object} DHTConfig
  * @property {boolean} [enabled]
  */
 
 export class IPNSAPI {
   /**
-   * @param {Object} options
+   * @param {object} options
    * @param {string} options.pass
    * @param {boolean} [options.offline]
    * @param {LibP2POptions} [options.libp2p]
@@ -56,30 +58,30 @@ export class IPNSAPI {
    * This is primarily used for offline ipns modifications, such as the
    * initializeKeyspace feature.
    *
-   * @param {Object} config
+   * @param {object} config
    * @param {import('ipfs-repo').IPFSRepo} config.repo
-   * @param {import('peer-id')} config.peerId
-   * @param {import('libp2p/src/keychain')} config.keychain
+   * @param {import('@libp2p/interface-peer-id').PeerId} config.peerId
+   * @param {import('@libp2p/interface-keychain').KeyChain} config.keychain
    */
   startOffline ({ repo, peerId, keychain }) {
     if (this.offline != null) {
       throw new AlreadyInitializedError()
     }
 
-    log('initializing IPNS keyspace')
+    log('initializing IPNS keyspace (offline)')
 
-    const routing = new OfflineDatastore(repo)
+    const routing = new OfflineDatastore(repo.datastore)
     const ipns = new IPNS(routing, repo.datastore, peerId, keychain, this.options)
 
     this.offline = ipns
   }
 
   /**
-   * @param {Object} config
-   * @param {import('libp2p')} config.libp2p
+   * @param {object} config
+   * @param {import('libp2p').Libp2p} config.libp2p
    * @param {import('ipfs-repo').IPFSRepo} config.repo
-   * @param {import('peer-id')} config.peerId
-   * @param {import('libp2p/src/keychain')} config.keychain
+   * @param {import('@libp2p/interface-peer-id').PeerId} config.peerId
+   * @param {import('@libp2p/interface-keychain').KeyChain} config.keychain
    */
   async startOnline ({ libp2p, repo, peerId, keychain }) {
     if (this.online != null) {
@@ -87,7 +89,7 @@ export class IPNSAPI {
     }
     const routing = createRouting({ libp2p, repo, peerId, options: this.options })
 
-    // @ts-ignore routing is a TieredDatastore which wants keys to be Keys, IPNS needs keys to be Uint8Arrays
+    // @ts-expect-error routing is a TieredDatastore which wants keys to be Keys, IPNS needs keys to be Uint8Arrays
     const ipns = new IPNS(routing, repo.datastore, peerId, keychain, this.options)
     await ipns.republisher.start()
     this.online = ipns
@@ -102,28 +104,33 @@ export class IPNSAPI {
   }
 
   /**
-   * @param {PrivateKey} privKey
+   * @param {PeerId} peerId
    * @param {Uint8Array} value
    * @param {number} lifetime
+   * @param {AbortOptions} [options]
    */
-  publish (privKey, value, lifetime) {
-    return this.getIPNS().publish(privKey, value, lifetime)
+  publish (peerId, value, lifetime, options) {
+    return this.getIPNS().publish(peerId, value, lifetime, options)
   }
 
   /**
    *
    * @param {string} name
-   * @param {*} [options]
+   * @param {object} [options]
+   * @param {boolean} [options.nocache]
+   * @param {boolean} [options.recursive]
+   * @param {AbortSignal} [options.signal]
    */
   resolve (name, options) {
     return this.getIPNS().resolve(name, options)
   }
 
   /**
-   * @param {PrivateKey} privKey
+   * @param {PeerId} peerId
    * @param {Uint8Array} value
+   * @param {AbortOptions} [options]
    */
-  initializeKeyspace (privKey, value) {
-    return this.getIPNS().initializeKeyspace(privKey, value)
+  initializeKeyspace (peerId, value, options) {
+    return this.getIPNS().initializeKeyspace(peerId, value, options)
   }
 }
